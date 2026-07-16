@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: cloudresume_db
+    restart: always
+    environment:
+      POSTGRES_DB: cloudresume
+      POSTGRES_USER: cloudresume_user
+      POSTGRES_PASSWORD: cloudresume_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: cloudresume_backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_NAME: cloudresume
+      DB_USER: cloudresume_user
+      DB_PASSWORD: cloudresume_password
+      DB_HOST: db
+      DB_PORT: 5432
+
+  frontend:
+    build: ./frontend
+    container_name: cloudresume_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
