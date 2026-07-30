@@ -8,7 +8,7 @@ from .utils import extract_text_from_pdf
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from .ats_analyzer import analyze_resume
 from .models import Resume, ResumeAnalysis
 from .serializers import ResumeSerializer, ResumeAnalysisSerializer
 
@@ -60,20 +60,8 @@ class AnalyzeResumeView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Temporary analysis
-        analysis_data = {
-            "ats_score": 70,
-            "strengths": [
-                "Resume contains readable text",
-                "Resume was successfully processed"
-            ],
-            "weaknesses": [
-                "AI analysis has not been connected yet"
-            ],
-            "suggestions": [
-                "Connect the AI analysis service"
-            ]
-        }
+       
+        analysis_data = analyze_resume(resume.extracted_text)
 
         analysis, created = ResumeAnalysis.objects.update_or_create(
             resume=resume,
