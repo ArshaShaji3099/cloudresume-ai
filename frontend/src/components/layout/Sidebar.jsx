@@ -1,6 +1,7 @@
 import {
     LayoutDashboard,
     FileText,
+    BrainCircuit,
     Briefcase,
     BarChart3,
     User,
@@ -8,38 +9,118 @@ import {
     LogOut,
 } from "lucide-react";
 
+import { NavLink } from "react-router-dom";
+
 const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard" },
-    { icon: FileText, label: "My Resumes" },
-    { icon: BarChart3, label: "ATS Analysis" },
-    { icon: Briefcase, label: "Jobs" },
-    { icon: User, label: "Profile" },
-    { icon: Settings, label: "Settings" },
+    {
+        title: "Dashboard",
+        icon: LayoutDashboard,
+        path: "/dashboard",
+    },
+    {
+        title: "My Resumes",
+        icon: FileText,
+        path: "/resumes",
+    },
+    {
+        title: "Resume Analysis",
+        icon: BrainCircuit,
+        path: "/resume-analysis",
+    },
+    {
+        title: "Job Matching",
+        icon: Briefcase,
+        path: "/job-matching",
+    },
+    {
+        title: "Analytics",
+        icon: BarChart3,
+        path: "/analytics",
+    },
+    {
+        title: "Profile",
+        icon: User,
+        path: "/profile",
+    },
+    {
+        title: "Settings",
+        icon: Settings,
+        path: "/settings",
+    },
 ];
 
 function Sidebar() {
     return (
-        <aside className="w-64 bg-slate-900 border-r border-slate-800 min-h-screen p-6 flex flex-col">
-            <h1 className="text-2xl font-bold text-white mb-10">
-                ☁ ResumePilot
-            </h1>
+        <aside className="flex h-screen w-72 flex-col border-r border-slate-800 bg-slate-900">
 
-            <nav className="flex-1 space-y-2">
-                {menuItems.map((item) => (
-                    <button
-                        key={item.label}
-                        className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 hover:bg-blue-600 hover:text-white transition-all duration-300"
-                    >
-                        <item.icon size={20} />
-                        {item.label}
-                    </button>
-                ))}
+            {/* Logo */}
+
+            <div className="border-b border-slate-800 px-8 py-8">
+
+                <h1 className="text-3xl font-black text-white">
+                    ResumePilot
+                </h1>
+
+                <p className="mt-1 text-sm text-slate-400">
+                    AI Resume Platform
+                </p>
+
+            </div>
+
+            {/* Menu */}
+
+            <nav className="flex-1 px-5 py-8">
+
+                <div className="space-y-2">
+
+                    {menuItems.map((item) => {
+
+                        const Icon = item.icon;
+
+                        return (
+
+                            <NavLink
+                                key={item.title}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-4 rounded-xl px-5 py-4 transition ${isActive
+                                        ? "bg-blue-600 text-white shadow-lg"
+                                        : "text-slate-400 hover:bg-slate-800 hover:text-white"
+                                    }`
+                                }
+                            >
+
+                                <Icon size={22} />
+
+                                <span className="font-medium">
+                                    {item.title}
+                                </span>
+
+                            </NavLink>
+
+                        );
+                    })}
+
+                </div>
+
             </nav>
 
-            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300">
-                <LogOut size={20} />
-                Logout
-            </button>
+            {/* Logout */}
+
+            <div className="border-t border-slate-800 p-5">
+
+                <button
+                    className="flex w-full items-center gap-4 rounded-xl px-5 py-4 text-red-400 transition hover:bg-red-500/10"
+                >
+
+                    <LogOut size={22} />
+
+                    Logout
+
+                </button>
+
+            </div>
+
         </aside>
     );
 }

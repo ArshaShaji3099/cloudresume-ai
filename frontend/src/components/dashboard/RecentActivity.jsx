@@ -1,27 +1,71 @@
+import {
+    Upload,
+    Sparkles,
+    Briefcase,
+    CheckCircle,
+} from "lucide-react";
+
 const activities = [
-    "Resume uploaded successfully",
-    "ATS score improved to 87%",
-    "Matched with Software Engineer role",
-    "New job description analyzed",
+    {
+        icon: Upload,
+        text: "Uploaded Software_Engineer.pdf",
+    },
+    {
+        icon: Sparkles,
+        text: "AI analyzed your resume",
+    },
+    {
+        icon: Briefcase,
+        text: "Matched with 5 new jobs",
+    },
+    {
+        icon: CheckCircle,
+        text: "ATS score improved to 92%",
+    },
 ];
 
 function RecentActivity() {
     return (
-        <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+
+            <h2 className="mb-6 text-xl font-bold text-white">
                 Recent Activity
             </h2>
 
-            <div className="space-y-4">
-                {activities.map((activity, index) => (
-                    <div
-                        key={index}
-                        className="rounded-lg bg-slate-800 p-4 text-slate-300"
-                    >
-                        {activity}
-                    </div>
-                ))}
+            <div className="space-y-5">
+
+                {activities.map((activity, index) => {
+
+                    const Icon = activity.icon;
+
+                    return (
+
+                        <div
+                            key={index}
+                            className="flex items-center gap-4"
+                        >
+
+                            <div className="rounded-full bg-blue-600/20 p-3">
+
+                                <Icon
+                                    size={18}
+                                    className="text-blue-400"
+                                />
+
+                            </div>
+
+                            <p className="text-slate-300">
+                                {activity.text}
+                            </p>
+
+                        </div>
+
+                    );
+
+                })}
+
             </div>
+
         </div>
     );
 }
