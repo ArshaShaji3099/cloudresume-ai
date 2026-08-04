@@ -1,6 +1,6 @@
 import ResumeCard from "./ResumeCard";
 
-function ResumeGrid({ resumes }) {
+function ResumeGrid({ resumes, onResumeDeleted }) {
 
     if (resumes.length === 0) {
         return (
@@ -23,6 +23,7 @@ function ResumeGrid({ resumes }) {
                 <ResumeCard
                     key={resume.id}
                     resume={resume}
+                    onResumeDeleted={onResumeDeleted}
                 />
             ))}
 

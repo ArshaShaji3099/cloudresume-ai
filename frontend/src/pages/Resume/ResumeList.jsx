@@ -58,7 +58,10 @@ function ResumeList() {
                     Loading...
                 </p>
             ) : (
-                <ResumeGrid resumes={resumes} />
+                    <ResumeGrid
+                        resumes={resumes}
+                        onResumeDeleted={loadResumes}
+                    />
             )}
 
             {showUploadModal && (

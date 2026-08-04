@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
@@ -11,7 +10,7 @@ import JobMatching from "../pages/Jobs/JobMatching";
 import Analytics from "../pages/Analytics/Analytics";
 import Profile from "../pages/Profile/Profile";
 import Settings from "../pages/Settings/Settings";
-
+import ResumeDetail from "../pages/Resume/ResumeDetail";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 function AppRoutes() {
@@ -87,6 +86,24 @@ function AppRoutes() {
                     element={
                         <ProtectedRoute>
                             <Settings />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/resumes/:id"
+                    element={
+                        <ProtectedRoute>
+                            <ResumeDetail />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/resumes/:id"
+                    element={
+                        <ProtectedRoute>
+                            <ResumeDetail />
                         </ProtectedRoute>
                     }
                 />

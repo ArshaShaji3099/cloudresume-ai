@@ -27,3 +27,8 @@ export const analyzeResume = async (id) => {
     const response = await api.post(`/resumes/${id}/analyze/`);
     return response.data;
 };
+
+export const getResume = async (id) => {
+    const response = await api.get(`/resumes/${id}/`);
+    return response.data;
+};
