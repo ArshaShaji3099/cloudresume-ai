@@ -2,11 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
-
+import JobMatching from "../pages/JobMatching/JobMatching";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ResumeList from "../pages/Resume/ResumeList";
 import ResumeAnalysis from "../pages/ATS/ResumeAnalysis";
-import JobMatching from "../pages/Jobs/JobMatching";
 import Analytics from "../pages/Analytics/Analytics";
 import Profile from "../pages/Profile/Profile";
 import Settings from "../pages/Settings/Settings";
@@ -104,6 +103,15 @@ function AppRoutes() {
                     element={
                         <ProtectedRoute>
                             <ResumeDetail />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/job-matching"
+                    element={
+                        <ProtectedRoute>
+                            <JobMatching />
                         </ProtectedRoute>
                     }
                 />
