@@ -33,6 +33,11 @@ const menuItems = [
         path: "/job-matching",
     },
     {
+        title: "Match History",
+        icon: Briefcase,
+        path: "/match-history",
+    },
+    {
         title: "Analytics",
         icon: BarChart3,
         path: "/analytics",

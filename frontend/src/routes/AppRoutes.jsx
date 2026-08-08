@@ -11,6 +11,7 @@ import Profile from "../pages/Profile/Profile";
 import Settings from "../pages/Settings/Settings";
 import ResumeDetail from "../pages/Resume/ResumeDetail";
 import ProtectedRoute from "../components/ProtectedRoute";
+import MatchHistory from "../pages/JobMatching/MatchHistory";
 
 function AppRoutes() {
     return (
@@ -114,6 +115,16 @@ function AppRoutes() {
                             <JobMatching />
                         </ProtectedRoute>
                     }
+                />
+
+                <Route
+                    path="/match-history"
+                    element={<MatchHistory />}
+                />
+
+                <Route
+                    path="/analytics"
+                    element={<Analytics />}
                 />
 
             </Routes>
