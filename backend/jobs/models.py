@@ -39,6 +39,12 @@ class ResumeMatch(models.Model):
     matched_skills = models.JSONField(default=list)
 
     missing_skills = models.JSONField(default=list)
+    
+    skills_score = models.PositiveIntegerField(default=0)
+
+    keyword_score = models.PositiveIntegerField(default=0)
+
+    experience_score = models.PositiveIntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

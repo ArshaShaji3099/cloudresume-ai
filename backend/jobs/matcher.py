@@ -1,61 +1,404 @@
 import re
 
+
 SKILLS = [
+    # Programming Languages
     "python",
-    "django",
-    "flask",
-    "fastapi",
     "javascript",
     "typescript",
-    "react",
-    "node",
+    "java",
+    "c++",
+    "c#",
+    "php",
+    "ruby",
+    "go",
+    "kotlin",
+    "swift",
+
+    # Frontend
     "html",
     "css",
     "bootstrap",
     "tailwind",
+    "react",
+    "react.js",
+    "angular",
+    "vue",
+    "next.js",
+
+    # Backend
+    "django",
+    "django rest framework",
+    "flask",
+    "fastapi",
+    "node",
+    "node.js",
+    "express",
+    "express.js",
+
+    # APIs
+    "rest api",
+    "graphql",
+    "websocket",
+
+    # Databases
     "sql",
     "mysql",
     "postgresql",
+    "postgres",
     "mongodb",
-    "docker",
-    "git",
-    "github",
+    "sqlite",
+    "mariadb",
+    "redis",
+    "oracle",
+
+    # Cloud
     "aws",
     "azure",
-    "rest api",
-    "api",
+    "google cloud",
+    "gcp",
+    "ec2",
+    "s3",
+    "lambda",
+
+    # DevOps
+    "docker",
+    "docker compose",
+    "kubernetes",
+    "jenkins",
+    "github actions",
+    "gitlab ci",
+    "ci/cd",
+    "terraform",
+    "ansible",
+
+    # Version Control
+    "git",
+    "github",
+    "gitlab",
+    "bitbucket",
+
+    # AI / ML
+    "artificial intelligence",
+    "machine learning",
+    "deep learning",
+    "tensorflow",
+    "pytorch",
+    "scikit-learn",
+    "sklearn",
+    "pandas",
+    "numpy",
+    "opencv",
+    "nlp",
+
+    # Testing
+    "pytest",
+    "unittest",
+    "selenium",
+    "cypress",
+    "playwright",
+    "jest",
+
+    # Concepts
+    "microservices",
+    "agile",
+    "scrum",
+    "oop",
+    "object oriented programming",
+    "data structures",
+    "algorithms",
+
+    # Tools
+    "linux",
+    "postman",
+    "jira",
 ]
 
 
-def match_resume(resume_text, job_description):
-    resume_text = resume_text.lower()
-    job_description = job_description.lower()
+KEYWORDS = [
+    "software engineer",
+    "software developer",
+    "developer",
+    "programmer",
 
-    matched_skills = []
-    missing_skills = []
+    "backend developer",
+    "frontend developer",
+    "full stack developer",
+    "full stack",
+
+    "backend",
+    "frontend",
+
+    "web development",
+    "software development",
+    "application development",
+
+    "rest api",
+    "rest apis",
+    "api",
+    "apis",
+
+    "database",
+    "databases",
+
+    "testing",
+    "debugging",
+
+    "deployment",
+    "development",
+
+    "architecture",
+
+    "application",
+    "applications",
+
+    "project",
+    "projects",
+
+    "development lifecycle",
+    "software development lifecycle",
+
+    "team",
+    "teams",
+
+    "agile",
+    "scrum",
+]
+
+
+EXPERIENCE_TERMS = [
+    "experience",
+    "years",
+    "worked",
+    "developed",
+    "built",
+    "designed",
+    "implemented",
+    "maintained",
+    "managed",
+    "deployed",
+]
+
+
+def normalize_text(text):
+    """
+    Normalize text before matching.
+    """
+
+    if not text:
+        return ""
+
+    text = text.lower()
+
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+
+def skill_exists(skill, text):
+    """
+    Check whether a skill exists as a complete term.
+    """
+
+    skill = skill.lower().strip()
+
+    pattern = rf"(?<!\w){re.escape(skill)}(?!\w)"
+
+    return re.search(pattern, text) is not None
+
+
+def count_terms(terms, text):
+    """
+    Count how many terms from a list appear in text.
+    """
+
+    count = 0
+
+    for term in terms:
+
+        if skill_exists(term, text):
+            count += 1
+
+    return count
+
+
+def calculate_skill_score(
+    matched_skills,
+    required_skills
+):
+    """
+    Calculate percentage based on required skills.
+    """
+
+    if not required_skills:
+        return 0
+
+    return round(
+        (len(matched_skills) / len(required_skills)) * 100
+    )
+
+
+def calculate_keyword_score(
+    job_description,
+    resume_text
+):
+    """
+    Compare general job-related keywords.
+    """
+
+    job_keywords = [
+        keyword
+        for keyword in KEYWORDS
+        if skill_exists(keyword, job_description)
+    ]
+
+    if not job_keywords:
+        return 100
+
+    matched_keywords = [
+        keyword
+        for keyword in job_keywords
+        if skill_exists(keyword, resume_text)
+    ]
+
+    return round(
+        (len(matched_keywords) / len(job_keywords)) * 100
+    )
+
+
+def calculate_experience_score(
+    job_description,
+    resume_text
+):
+    """
+    Compare experience-related language.
+    """
+
+    job_experience_terms = [
+        term
+        for term in EXPERIENCE_TERMS
+        if skill_exists(term, job_description)
+    ]
+
+    if not job_experience_terms:
+        return 100
+
+    matched_terms = [
+        term
+        for term in job_experience_terms
+        if skill_exists(term, resume_text)
+    ]
+
+    return round(
+        (len(matched_terms) / len(job_experience_terms)) * 100
+    )
+
+
+def match_resume(resume_text, job_description):
+
+    resume_text = normalize_text(resume_text)
+    job_description = normalize_text(job_description)
+
+    # -----------------------------------------
+    # Find required skills
+    # -----------------------------------------
 
     required_skills = []
 
     for skill in SKILLS:
-        if skill in job_description:
+
+        if skill_exists(skill, job_description):
             required_skills.append(skill)
 
+    # -----------------------------------------
+    # Match skills
+    # -----------------------------------------
+
+    matched_skills = []
+    missing_skills = []
+
     for skill in required_skills:
-        if skill in resume_text:
+
+        if skill_exists(skill, resume_text):
+
             matched_skills.append(skill)
+
         else:
+
             missing_skills.append(skill)
 
-    if required_skills:
-        score = int((len(matched_skills) / len(required_skills)) * 100)
-    else:
-        score = 0
+    # -----------------------------------------
+    # Calculate individual scores
+    # -----------------------------------------
+
+    skills_score = calculate_skill_score(
+        matched_skills,
+        required_skills
+    )
+
+    keyword_score = calculate_keyword_score(
+        job_description,
+        resume_text
+    )
+
+    experience_score = calculate_experience_score(
+        job_description,
+        resume_text
+    )
+
+    # -----------------------------------------
+    # Final weighted score
+    #
+    # Skills       = 60%
+    # Keywords     = 20%
+    # Experience   = 20%
+    # -----------------------------------------
+
+    final_score = round(
+        (skills_score * 0.60)
+        + (keyword_score * 0.20)
+        + (experience_score * 0.20)
+    )
+
+    # -----------------------------------------
+    # Suggestions
+    # -----------------------------------------
+
+    suggestions = [
+        f"Consider adding {skill} to your resume if you have experience with it."
+        for skill in missing_skills
+    ]
+
+    if keyword_score < 70:
+
+        suggestions.append(
+            "Consider using more job-related keywords "
+            "from the job description in your resume."
+        )
+
+    if experience_score < 70:
+
+        suggestions.append(
+            "Consider highlighting your relevant "
+            "development experience and achievements."
+        )
+
+    # -----------------------------------------
+    # Result
+    # -----------------------------------------
 
     return {
-        "match_score": score,
+        "match_score": final_score,
+
+        "skills_score": skills_score,
+
+        "keyword_score": keyword_score,
+
+        "experience_score": experience_score,
+
         "matched_skills": matched_skills,
+
         "missing_skills": missing_skills,
-        "suggestions": [
-            f"Consider adding {skill}" for skill in missing_skills
-        ]
+
+        "suggestions": suggestions,
     }

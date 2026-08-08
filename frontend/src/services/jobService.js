@@ -32,3 +32,13 @@ export const deleteJob = async (id) => {
     const response = await api.delete(`/jobs/${id}/`);
     return response.data;
 };
+
+export const getMatchHistory = async () => {
+    const response = await api.get("/jobs/matches/");
+    return response.data;
+};
+
+export const getMatchAnalytics = async () => {
+    const response = await api.get("/jobs/analytics/");
+    return response.data;
+};
