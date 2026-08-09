@@ -150,8 +150,8 @@ class ResumeMatchView(APIView):
                     "matched_skills"
                 ],
 
-                "missing_skills": result[
-                    "missing_skills"
+                "recommendations": result[
+                    "recommendations"
                 ],
             }
         )

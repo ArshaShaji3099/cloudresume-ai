@@ -54,6 +54,8 @@ class ResumeMatchSerializer(serializers.ModelSerializer):
 
             "matched_skills",
             "missing_skills",
+            
+            "recommendations",
 
             "created_at",
         ]
@@ -76,6 +78,7 @@ class ResumeMatchSerializer(serializers.ModelSerializer):
 
             "matched_skills",
             "missing_skills",
+            "recommendations",
 
             "created_at",
         ]
