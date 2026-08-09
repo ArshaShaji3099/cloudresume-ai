@@ -59,9 +59,9 @@ function JobMatching() {
         try {
             setLoading(true);
 
-            // ------------------------------------
-            // 1. Create Job Description
-            // ------------------------------------
+            // =========================================
+            // 1. CREATE JOB
+            // =========================================
 
             const job = await createJob({
                 title: title.trim(),
@@ -71,9 +71,9 @@ function JobMatching() {
 
             console.log("Created job:", job);
 
-            // ------------------------------------
-            // 2. Match Resume With Job
-            // ------------------------------------
+            // =========================================
+            // 2. MATCH RESUME
+            // =========================================
 
             const result = await matchResume(
                 job.id,
@@ -82,9 +82,9 @@ function JobMatching() {
 
             console.log("Match result:", result);
 
-            // ------------------------------------
-            // 3. Display Result
-            // ------------------------------------
+            // =========================================
+            // 3. DISPLAY RESULT
+            // =========================================
 
             setMatchResult(result);
 
@@ -100,6 +100,10 @@ function JobMatching() {
         }
     }
 
+    // =========================================
+    // SCORE COLOR
+    // =========================================
+
     function getScoreColor(score) {
         if (score >= 80) {
             return "text-green-400";
@@ -111,6 +115,10 @@ function JobMatching() {
 
         return "text-red-400";
     }
+
+    // =========================================
+    // PROGRESS COLOR
+    // =========================================
 
     function getProgressColor(score) {
         if (score >= 80) {
@@ -124,12 +132,39 @@ function JobMatching() {
         return "bg-red-500";
     }
 
+    // =========================================
+    // PRIORITY COLOR
+    // =========================================
+
+    function getPriorityStyle(priority) {
+        if (priority === "high") {
+            return {
+                badge: "bg-red-500/10 text-red-400 border-red-500/20",
+                border: "border-red-500/20",
+            };
+        }
+
+        if (priority === "medium") {
+            return {
+                badge: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+                border: "border-yellow-500/20",
+            };
+        }
+
+        return {
+            badge: "bg-green-500/10 text-green-400 border-green-500/20",
+            border: "border-green-500/20",
+        };
+    }
+
     return (
         <DashboardLayout>
 
             <div className="mx-auto max-w-6xl">
 
-                {/* Header */}
+                {/* ========================================= */}
+                {/* HEADER */}
+                {/* ========================================= */}
 
                 <h1 className="text-4xl font-bold text-white">
                     Job Matching
@@ -141,9 +176,9 @@ function JobMatching() {
 
                 <div className="mt-10 grid gap-8 lg:grid-cols-2">
 
-                    {/* ===================================== */}
+                    {/* ========================================= */}
                     {/* LEFT SIDE */}
-                    {/* ===================================== */}
+                    {/* ========================================= */}
 
                     <div className="rounded-3xl border border-slate-800 bg-slate-900 p-8">
 
@@ -261,20 +296,18 @@ function JobMatching() {
                                 disabled={loading}
                                 className="w-full rounded-xl bg-blue-600 py-4 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                             >
-
                                 {loading
                                     ? "Analyzing..."
                                     : "Analyze Match"}
-
                             </button>
 
                         </div>
 
                     </div>
 
-                    {/* ===================================== */}
+                    {/* ========================================= */}
                     {/* RIGHT SIDE */}
-                    {/* ===================================== */}
+                    {/* ========================================= */}
 
                     <div className="rounded-3xl border border-dashed border-slate-700 bg-slate-900 p-8">
 
@@ -301,9 +334,9 @@ function JobMatching() {
 
                             <div className="mt-8">
 
-                                {/* ================================= */}
+                                {/* ========================================= */}
                                 {/* FINAL SCORE */}
-                                {/* ================================= */}
+                                {/* ========================================= */}
 
                                 <div>
 
@@ -334,9 +367,9 @@ function JobMatching() {
 
                                 </div>
 
-                                {/* ================================= */}
+                                {/* ========================================= */}
                                 {/* SCORE BREAKDOWN */}
-                                {/* ================================= */}
+                                {/* ========================================= */}
 
                                 <div className="mt-10">
 
@@ -455,9 +488,9 @@ function JobMatching() {
 
                                 </div>
 
-                                {/* ================================= */}
+                                {/* ========================================= */}
                                 {/* MATCHED SKILLS */}
-                                {/* ================================= */}
+                                {/* ========================================= */}
 
                                 <div className="mt-10">
 
@@ -492,9 +525,9 @@ function JobMatching() {
 
                                 </div>
 
-                                {/* ================================= */}
+                                {/* ========================================= */}
                                 {/* MISSING SKILLS */}
-                                {/* ================================= */}
+                                {/* ========================================= */}
 
                                 <div className="mt-10">
 
@@ -529,9 +562,70 @@ function JobMatching() {
 
                                 </div>
 
-                                {/* ================================= */}
-                                {/* SUGGESTIONS */}
-                                {/* ================================= */}
+                                {/* ========================================= */}
+                                {/* RECOMMENDATIONS */}
+                                {/* ========================================= */}
+
+                                {matchResult.recommendations?.length > 0 && (
+
+                                    <div className="mt-10">
+
+                                        <h3 className="text-xl font-bold text-white">
+                                            🎯 Recommendations
+                                        </h3>
+
+                                        <div className="mt-5 space-y-4">
+
+                                            {matchResult.recommendations.map(
+                                                (recommendation, index) => {
+
+                                                    const style =
+                                                        getPriorityStyle(
+                                                            recommendation.priority
+                                                        );
+
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className={`rounded-2xl border ${style.border} bg-slate-800/50 p-5`}
+                                                        >
+
+                                                            <div className="flex items-start justify-between gap-4">
+
+                                                                <div>
+
+                                                                    <h4 className="font-semibold text-white">
+                                                                        {recommendation.title}
+                                                                    </h4>
+
+                                                                    <p className="mt-2 text-sm leading-6 text-slate-400">
+                                                                        {recommendation.message}
+                                                                    </p>
+
+                                                                </div>
+
+                                                                <span
+                                                                    className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold uppercase ${style.badge}`}
+                                                                >
+                                                                    {recommendation.priority}
+                                                                </span>
+
+                                                            </div>
+
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                )}
+
+                                {/* ========================================= */}
+                                {/* OLD SUGGESTIONS */}
+                                {/* ========================================= */}
 
                                 {matchResult.suggestions?.length > 0 && (
 

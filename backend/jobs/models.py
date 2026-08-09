@@ -45,6 +45,8 @@ class ResumeMatch(models.Model):
     keyword_score = models.PositiveIntegerField(default=0)
 
     experience_score = models.PositiveIntegerField(default=0)
+    
+    recommendations = models.JSONField(default=list)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
