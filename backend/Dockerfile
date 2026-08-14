@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN chmod +x wait-for-db.sh
+RUN chmod +x wait-for-db.sh start-production.sh
 
 EXPOSE 8000
 
