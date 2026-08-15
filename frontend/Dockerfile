@@ -16,5 +16,6 @@ COPY . .
 # Expose Vite port
 EXPOSE 5173
 
-# Start Vite development server
+
+# Start production server
 CMD ["sh", "-c", "npm run build && npm run preview -- --host 0.0.0.0 --port $PORT"]
