@@ -160,6 +160,8 @@ function JobMatching() {
     return (
         <DashboardLayout>
 
+            <h2 className="bg-red-950 text-amber-300">Job Matching</h2>
+
             <div className="mx-auto max-w-6xl">
 
                 {/* ========================================= */}
@@ -240,6 +242,8 @@ function JobMatching() {
                                 />
 
                             </div>
+
+                            <h2 className="bg-red-950 text-amber-300">Job Matching</h2>
 
                             {/* Job Title */}
 
