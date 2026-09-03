@@ -18,4 +18,4 @@ EXPOSE 5173
 
 
 # Start production server
-CMD ["sh", "-c", "npm run build && npm run preview -- --host 0.0.0.0 --port $PORT"]
+CMD ["sh", "-c", "npm run build && npm run preview -- --host 0.0.0.0 --port ${PORT:-5173}"]
